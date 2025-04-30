@@ -13,36 +13,43 @@ An AI to play the Rock Paper Scissors game
 - OpenCV
 
 ## Set up instructions
-1. Install dependencies:
-```sh
-pip install --upgrade pip
-pip install -r requirements.txt
-```
 
-2. Gather images:
-```sh
-python gather_images.py <gesture> <count>
-```
+1. Activate the virtual environment (from the project root):
+   ```sh
+   source .venv/bin/activate
+   ```
 
-3. Train the model:
-```sh
-python train.py
-```
+2. Install dependencies:
+   ```sh
+   pip install --upgrade pip
+   pip install -r requirements.txt
+   ```
 
-4. Test the model:
-```sh
-python test.py <path_to_image>
-```
+3. Gather images:
+   ```sh
+   python gather_images.py <gesture> <count>
+   ```
+   > **Note:** You can capture custom datasets by running:
+   > ```sh
+   > python gather_images.py <gesture> <count>
+   > ```
+   > where `<gesture>` is one of `rock`, `paper`, `scissors`, or `none`, and `<count>` is how many images to capture.
 
-5. Play the game:
-```sh
-python play.py
-```
+4. Train the model:
+   ```sh
+   python train.py
+   ```
 
-```sh
-git clone https://github.com/rachely8/DS340_Project.git
-cd DS340_Project/rock-paper-scissors
-```
+5. Test the model:
+   ```sh
+   python test.py <path_to_image>
+   ```
+
+6. Play the game:
+   ```sh
+   python play.py
+   ```
+   **Usage:** Press **a** to start the game and **q** to quit.
 
 ## What We Did
 - We forked the original Rock-Paper-Scissors code and completely overhauled the training pipeline.
