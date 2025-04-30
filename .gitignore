@@ -1,0 +1,14 @@
+# Ignore Python virtual environments
+.venv/
+venv/
+
+# Byte-compiled files
+__pycache__/
+*.py[cod]
+*.so
+
+# macOS
+.DS_Store
+
+# IDE settings
+.vscode/
