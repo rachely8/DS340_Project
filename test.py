@@ -6,11 +6,12 @@ from tensorflow.keras.applications.efficientnet import preprocess_input
 
 filepath = sys.argv[1]
 
+# Inferred from flow_from_directory: folders sorted as ['none','paper','rock','scissors']
 REV_CLASS_MAP = {
-    0: "rock",
+    0: "none",
     1: "paper",
-    2: "scissors",
-    3: "none"
+    2: "rock",
+    3: "scissors"
 }
 
 

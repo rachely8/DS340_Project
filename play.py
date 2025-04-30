@@ -5,10 +5,10 @@ import numpy as np
 from random import choice
 
 REV_CLASS_MAP = {
-    0: "rock",
+    0: "none",
     1: "paper",
-    2: "scissors",
-    3: "none"
+    2: "rock",
+    3: "scissors"
 }
 
 
