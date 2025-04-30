@@ -7,16 +7,22 @@ https://youtu.be/0uSA3xyXlwM
 An AI to play the Rock Paper Scissors game
 
 ## Requirements
-- Python 3.8+
+- Python 3.8+ 
 - TensorFlow 2.x (macOS: `tensorflow-macos` + `tensorflow-metal` for GPU support)
 - Pillow
 - OpenCV
 
 ## Set up instructions
 
-1. Activate the virtual environment (from the project root):
+1. Create and activate the virtual environment (from the project root):
    ```sh
+   # macOS/Linux:
+   python3 -m venv .venv
    source .venv/bin/activate
+
+   # Windows (PowerShell):
+   python -m venv .venv
+   .\.venv\Scripts\Activate.ps1
    ```
 
 2. Install dependencies:
