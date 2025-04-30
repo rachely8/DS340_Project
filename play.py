@@ -1,4 +1,5 @@
-from keras.models import load_model
+from tensorflow.keras.models import load_model
+from tensorflow.keras.applications.efficientnet import preprocess_input
 import cv2
 import numpy as np
 from random import choice
@@ -38,7 +39,7 @@ def calculate_winner(move1, move2):
             return "Computer"
 
 
-model = load_model("rock-paper-scissors-model.h5")
+model = load_model("rps_efficientnetb0_final.keras")
 
 cap = cv2.VideoCapture(0)
 
@@ -57,10 +58,12 @@ while True:
     # extract the region of image within the user rectangle
     roi = frame[100:500, 100:500]
     img = cv2.cvtColor(roi, cv2.COLOR_BGR2RGB)
-    img = cv2.resize(img, (227, 227))
+    img = cv2.resize(img, (224, 224))
+    img = img.astype('float32')
+    img = preprocess_input(img)
 
     # predict the move made
-    pred = model.predict(np.array([img]))
+    pred = model.predict(np.expand_dims(img, axis=0))
     move_code = np.argmax(pred[0])
     user_move_name = mapper(move_code)
 
