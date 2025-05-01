@@ -72,7 +72,7 @@ An AI to play the Rock Paper Scissors game
    ```sh
    python play.py
    ```
-   **Usage:** Press **a** to start the game and **q** to quit.
+   **Usage:** Press **SPACE** to start the game and **q** to quit.
 
 ## What We Did
 - We forked the original Rock-Paper-Scissors code and completely overhauled the training pipeline.
