@@ -41,6 +41,23 @@ An AI to play the Rock Paper Scissors game
    > ```
    > where `<gesture>` is one of `rock`, `paper`, `scissors`, or `none`, and `<count>` is how many images to capture.
 
+   > **Optional reset:** To start with a clean dataset, delete the `image_data/` directory:
+   >
+   > - **macOS/Linux:**
+   >   ```sh
+   >   rm -rf image_data/
+   >   ```
+   > - **Windows (PowerShell):**
+   >   ```powershell
+   >   Remove-Item -Recurse -Force .\image_data\
+   >   ```
+   >
+   > If you already have collected images or just want to train and play using the existing data, you can skip step 3 and jump straight to:
+   > ```sh
+   > python train.py
+   > python play.py
+   > ```
+
 4. Train the model:
    ```sh
    python train.py
