@@ -12,7 +12,7 @@ ties = 0
 
 # Markov model for prediction of user moves
 history = []
-k = 2  # order of the model
+k = 3  # order of the model
 transition_counts = {}
 # mapping human move to counter move
 counter = {'rock':'paper','paper':'scissors','scissors':'rock'}
@@ -20,6 +20,7 @@ counter = {'rock':'paper','paper':'scissors','scissors':'rock'}
 DECAY = 0.99  # exponential decay factor for recency weighting
 transition_counts_1 = {}  # order-1 transition counts
 transition_counts_2 = {}  # order-2 transition counts
+transition_counts_3 = {}  # order-3 transition counts
 
 REV_CLASS_MAP = {
     0: "none",
@@ -116,6 +117,9 @@ while True:
                 for counts in transition_counts_1.values():
                     for move in counts:
                         counts[move] *= DECAY
+                for counts in transition_counts_3.values():
+                    for move in counts:
+                        counts[move] *= DECAY
 
                 # update order-2 counts
                 if len(history) >= 2:
@@ -129,9 +133,21 @@ while True:
                     transition_counts_1.setdefault(key1, {'rock':0,'paper':0,'scissors':0})
                     transition_counts_1[key1][user_move_name] += 1
 
+                # update order-3 counts
+                if len(history) >= 3:
+                    key3 = tuple(history[-3:])
+                    transition_counts_3.setdefault(key3, {'rock':0, 'paper':0, 'scissors':0})
+                    transition_counts_3[key3][user_move_name] += 1
+
                 history.append(user_move_name)
-                # ensemble Markov prediction: try order-2, then order-1, then random
+                # ensemble Markov prediction: try order-3, then order-2, then order-1, then random
                 predicted = None
+                # first try order-3 Markov
+                if len(history) >= 3 and predicted is None:
+                    key3 = tuple(history[-3:])
+                    counts3 = transition_counts_3.get(key3, {})
+                    if counts3 and sum(counts3.values()) > 0:
+                        predicted = max(counts3, key=counts3.get)
                 if len(history) >= 2:
                     key2 = tuple(history[-2:])
                     counts2 = transition_counts_2.get(key2, {})
