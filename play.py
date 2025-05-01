@@ -17,6 +17,10 @@ transition_counts = {}
 # mapping human move to counter move
 counter = {'rock':'paper','paper':'scissors','scissors':'rock'}
 
+DECAY = 0.99  # exponential decay factor for recency weighting
+transition_counts_1 = {}  # order-1 transition counts
+transition_counts_2 = {}  # order-2 transition counts
+
 REV_CLASS_MAP = {
     0: "none",
     1: "paper",
@@ -105,17 +109,40 @@ while True:
             user_move_name = mapper(move_code)
             # computer and winner
             if user_move_name != "none":
-                # update transition counts
-                if len(history) >= k:
-                    key = tuple(history[-k:])
-                    transition_counts.setdefault(key, {'rock':0,'paper':0,'scissors':0})
-                    transition_counts[key][user_move_name] = transition_counts[key].get(user_move_name, 0) + 1
+                # apply exponential decay to prioritize recent patterns
+                for counts in transition_counts_2.values():
+                    for move in counts:
+                        counts[move] *= DECAY
+                for counts in transition_counts_1.values():
+                    for move in counts:
+                        counts[move] *= DECAY
+
+                # update order-2 counts
+                if len(history) >= 2:
+                    key2 = tuple(history[-2:])
+                    transition_counts_2.setdefault(key2, {'rock':0,'paper':0,'scissors':0})
+                    transition_counts_2[key2][user_move_name] += 1
+
+                # update order-1 counts
+                if len(history) >= 1:
+                    key1 = (history[-1],)
+                    transition_counts_1.setdefault(key1, {'rock':0,'paper':0,'scissors':0})
+                    transition_counts_1[key1][user_move_name] += 1
+
                 history.append(user_move_name)
-                # predict next human move
-                if len(history) >= k and tuple(history[-k:]) in transition_counts:
-                    key = tuple(history[-k:])
-                    predicted = max(transition_counts[key], key=transition_counts[key].get)
-                else:
+                # ensemble Markov prediction: try order-2, then order-1, then random
+                predicted = None
+                if len(history) >= 2:
+                    key2 = tuple(history[-2:])
+                    counts2 = transition_counts_2.get(key2, {})
+                    if counts2 and sum(counts2.values()) > 0:
+                        predicted = max(counts2, key=counts2.get)
+                if predicted is None and len(history) >= 1:
+                    key1 = (history[-1],)
+                    counts1 = transition_counts_1.get(key1, {})
+                    if counts1 and sum(counts1.values()) > 0:
+                        predicted = max(counts1, key=counts1.get)
+                if predicted is None:
                     predicted = choice(['rock','paper','scissors'])
                 # choose counter move
                 computer_move_name = counter[predicted]
