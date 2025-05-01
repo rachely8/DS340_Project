@@ -7,7 +7,7 @@ https://youtu.be/0uSA3xyXlwM
 An AI to play the Rock Paper Scissors game
 
 ## Requirements
-- Python 3.8+ 
+- Python 3.11.4 (install via Homebrew on macOS: `brew install python@3.11`)
 - TensorFlow 2.x (macOS: `tensorflow-macos` + `tensorflow-metal` for GPU support)
 - Pillow
 - OpenCV
